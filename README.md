@@ -10,8 +10,9 @@ Arda Tiftikçi - atiftikci18@ku.edu.tr - ardatiftikci
 
 
 Completed Steps:
-
+1)Decided on the language (Java)
+2)Talked about the problem.
+3)Wrote code of game simulation.
 TO DO:
-1)Meet and talk about problem
-2)Try to come up with an idea
-3)Convert the idea to pseudocode
+1)Try to come up with an idea.
+2)Convert the idea to pseudocode.
