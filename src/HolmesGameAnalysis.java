@@ -75,7 +75,7 @@ public class HolmesGameAnalysis {
 		boolean fulled=true;
 
 		for(int i=0; i<currentState.length-1; i++){
-			if(currentState[i] == 0) {
+			if(currentState[i] == -1) {
 				fulled=false;
 			}
 		}
