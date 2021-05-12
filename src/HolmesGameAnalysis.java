@@ -16,16 +16,6 @@ public class HolmesGameAnalysis {
 		int size = Integer.parseInt(sc.nextLine());
 		System.out.println("Size:"+size);
 
-		/*Hashtable<Integer, Integer> hashTable = new Hashtable<Integer, Integer>();
-
-	    while (sc.hasNextLine()){
-	      String arr[]=sc.nextLine().split(" ");
-	      hashTable.put(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
-	    }
-	    System.out.println(hashTable[0]);
-
-	    sc.close();*/
-
 
 		ArrayList<Integer> remainingNumbers = new ArrayList<Integer>();
 		for (int i=1; i<=size; i++) {
@@ -34,7 +24,7 @@ public class HolmesGameAnalysis {
 		int mistakeCount=0;
 		int currentState[]=new int[size];
 		for(int i=0; i<size; i++){
-			currentState[i]=0;
+			currentState[i]=-1;
 		}
 
 		System.out.print("Initial state: [" + currentState[0]);
@@ -56,7 +46,7 @@ public class HolmesGameAnalysis {
 			remainingNumbers.remove(new Integer(num));
 			enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
 			if(enolaWins!=enolaWinsPrev) mistakeCount++;
-			
+
 			System.out.print("After Round " + roundCounter +": [" + currentState[0]);
 			for(int i=1; i<size; i++){
 				System.out.print(", " + currentState[i]);
@@ -73,6 +63,7 @@ public class HolmesGameAnalysis {
 
 	public static boolean gameOver(int[] currentState) {
 		for(int i=0; i<currentState.length-2; i++){
+
 			if((currentState[i]!=0 && currentState[i+1]!=0) && (currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1)) {
 				return true;
 			}
@@ -80,8 +71,7 @@ public class HolmesGameAnalysis {
 		boolean fulled=true;
 
 		for(int i=0; i<currentState.length-1; i++){
-
-			if(currentState[i] == 0) {
+			if(currentState[i] == -1) {
 				fulled=false;
 			}
 		}
