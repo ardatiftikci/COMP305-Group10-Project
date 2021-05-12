@@ -64,7 +64,7 @@ public class HolmesGameAnalysis {
 	public static boolean gameOver(int[] currentState) {
 		for(int i=0; i<currentState.length-2; i++){
 
-			if((currentState[i]!=0 && currentState[i+1]!=0) && (currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1)) {
+			if(currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1) {
 				return true;
 			}
 		}
@@ -84,7 +84,7 @@ public class HolmesGameAnalysis {
 		
 		if(gameOver(state)) {
 			for(int i=0; i<currentState.length-2; i++){
-				if((currentState[i]!=0 && currentState[i+1]!=0) && (currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1)) {
+				if(currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1) {
 					return true;
 				}
 			}
@@ -100,7 +100,7 @@ public class HolmesGameAnalysis {
 	public static boolean simulate(int[] state, ArrayList<Integer> numbers) {
 		if(gameOver(state)) {
 			for(int i=0; i<state.length-2; i++){
-				if((state[i]!=0 && state[i+1]!=0) && (state[i]==state[i+1]+1 || state[i]==state[i+1]-1)) {
+				if(state[i]==state[i+1]+1 || state[i]==state[i+1]-1) {
 					System.out.println("enolawins");
 					return true;
 				}
