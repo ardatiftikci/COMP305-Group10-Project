@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class HolmesGameAnalysis {
-	
+
 	static int roundCounter=1;
-	
+
 	public static void main(String[] args) throws FileNotFoundException {
 
 		File file = new File("test1.txt");
@@ -40,7 +40,7 @@ public class HolmesGameAnalysis {
 			arr=sc.nextLine().split(" ");
 			place=Integer.parseInt(arr[0]);
 			num=Integer.parseInt(arr[1]);
-			
+
 			boolean enolaWinsPrev = enolaWins;
 			makeMove(currentState, place, num);
 			remainingNumbers.remove(new Integer(num));
@@ -52,51 +52,49 @@ public class HolmesGameAnalysis {
 				System.out.print(", " + currentState[i]);
 			}
 			System.out.println("]");
-			
+
 			roundCounter++;
 			System.out.println(mistakeCount);
 		}
-		
+
 		sc.close();
 	}
 
 
 	public static boolean gameOver(int[] currentState) {
-		for(int i=0; i<currentState.length-2; i++){
+		return isEnolaAlreadyWon(currentState)||isGameFinished(currentState);
+	}
 
-			if(currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1) {
-				return true;
-			}
-		}
-		boolean fulled=true;
-
+	public static boolean isEnolaAlreadyWon(int[] currentState) {
 		for(int i=0; i<currentState.length-1; i++){
-			if(currentState[i] == -1) {
-				fulled=false;
-			}
+			if(Math.abs(currentState[i]-currentState[i+1])==1) return true;
 		}
-		return fulled;
+
+		return false;
+	}
+
+	public static boolean isGameFinished(int[] currentState) {
+		for(int i=0; i<currentState.length; i++){
+			if(currentState[i] == -1) return false;
+		}
+		return true;
 	}
 
 	public static boolean enolaWinsOptimally(int[] currentState, ArrayList<Integer> numbers) {
 		int[] state = new int[currentState.length];
 		System.arraycopy(currentState, 0, state, 0, currentState.length);
-		
+
 		if(gameOver(state)) {
-			for(int i=0; i<currentState.length-2; i++){
-				if(currentState[i]==currentState[i+1]+1 || currentState[i]==currentState[i+1]-1) {
-					return true;
-				}
-			}
+			if(isEnolaAlreadyWon(state)) return true;
 		}
-		
-//		if (roundCounter % 2 == 0) {
-			return simulate(state, numbers);
-//		}
-		
-//		return false;
+
+		//		if (roundCounter % 2 == 0) {
+		return simulate(state, numbers);
+		//		}
+
+		//		return false;
 	}
-	
+
 	public static boolean simulate(int[] state, ArrayList<Integer> numbers) {
 		if(gameOver(state)) {
 			for(int i=0; i<state.length-2; i++){
@@ -108,7 +106,7 @@ public class HolmesGameAnalysis {
 			System.out.println("sherlockwins");
 			return false;
 		}
-		
+
 		for(Integer number : numbers) {
 			for(int i=1; i<=state.length; i++) {
 				if(state[i-1]==0) {
