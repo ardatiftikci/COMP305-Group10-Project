@@ -10,7 +10,7 @@ public class HolmesGameAnalysis {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test1.txt");
+		File file = new File("test2.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
@@ -36,25 +36,28 @@ public class HolmesGameAnalysis {
 		int place, num;
 		String arr[];
 		boolean enolaWins = true;
-		while(!gameOver(currentState) && roundCounter <= size){
+		while(!isGameFinished(currentState) && roundCounter <= size){
 			arr=sc.nextLine().split(" ");
 			place=Integer.parseInt(arr[0]);
 			num=Integer.parseInt(arr[1]);
 
 			boolean enolaWinsPrev = enolaWins;
+			enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
+			if(enolaWins!=enolaWinsPrev) {
+				mistakeCount++;
+			}
+			System.out.println(mistakeCount);
+
 			makeMove(currentState, place, num);
 			remainingNumbers.remove(new Integer(num));
-			enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
-			if(enolaWins!=enolaWinsPrev) mistakeCount++;
+
 
 			System.out.print("After Round " + roundCounter +": [" + currentState[0]);
 			for(int i=1; i<size; i++){
 				System.out.print(", " + currentState[i]);
 			}
 			System.out.println("]");
-
 			roundCounter++;
-			System.out.println(mistakeCount);
 		}
 
 		sc.close();
@@ -69,7 +72,6 @@ public class HolmesGameAnalysis {
 		for(int i=0; i<currentState.length-1; i++){
 			if(Math.abs(currentState[i]-currentState[i+1])==1) return true;
 		}
-
 		return false;
 	}
 
@@ -85,42 +87,55 @@ public class HolmesGameAnalysis {
 		System.arraycopy(currentState, 0, state, 0, currentState.length);
 
 		if(gameOver(state)) {
-			if(isEnolaAlreadyWon(state)) return true;
+			return isEnolaAlreadyWon(state);
 		}
 
-		//		if (roundCounter % 2 == 0) {
-		return simulate(state, numbers);
-		//		}
+		return simulate(state, numbers, roundCounter%2==1, 0);
 
-		//		return false;
 	}
 
-	public static boolean simulate(int[] state, ArrayList<Integer> numbers) {
+	public static boolean simulate(int[] state, ArrayList<Integer> numbers, boolean enolaTurn, int recLevel) {
 		if(gameOver(state)) {
-			for(int i=0; i<state.length-2; i++){
-				if(state[i]==state[i+1]+1 || state[i]==state[i+1]-1) {
-					System.out.println("enolawins");
-					return true;
+			if(isEnolaAlreadyWon(state)) {
+				//System.out.println("enolawins");
+				return true;
+			}
+			else{
+				//System.out.println("sherlockwins");
+				return false;
+			}
+		}
+		if(enolaTurn) {
+			for(Integer number : numbers) {
+				for(int i=1; i<=state.length; i++) {
+					if(state[i-1]==-1) {
+						makeMove(state, i, number);
+						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
+						newNumbers.remove(new Integer(number));
+						//System.out.println("alooo");
+						if(simulate(state, newNumbers, !enolaTurn, recLevel+1)) return true;
+						state[i-1]=-1;
+					}
 				}
 			}
-			System.out.println("sherlockwins");
+
 			return false;
-		}
-
-		for(Integer number : numbers) {
-			for(int i=1; i<=state.length; i++) {
-				if(state[i-1]==0) {
-					makeMove(state, i, number);
-					ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
-					newNumbers.remove(new Integer(number));
-					//System.out.println("alooo");
-					if(simulate(state, newNumbers)) return true;
-					state[i-1]=0;
+			
+		}else {
+			for(Integer number : numbers) {
+				for(int i=1; i<=state.length; i++) {
+					if(state[i-1]==-1) {
+						makeMove(state, i, number);
+						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
+						newNumbers.remove(new Integer(number));
+						//System.out.println("alooo");
+						if(!simulate(state, newNumbers, !enolaTurn, recLevel+1)) return false;
+						state[i-1]=-1;
+					}
 				}
 			}
+			return true;
 		}
-
-		return false;
 	}
 
 	public static void  makeMove(int[] currentState, int place, int num) {
