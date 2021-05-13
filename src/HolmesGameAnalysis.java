@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class HolmesGameAnalysis {
@@ -46,6 +45,7 @@ public class HolmesGameAnalysis {
 			if(enolaWins!=enolaWinsPrev) {
 				mistakeCount++;
 			}
+			System.out.println(enolaWinsOptimally(currentState, remainingNumbers));
 			System.out.println(mistakeCount);
 
 			makeMove(currentState, place, num);
@@ -57,6 +57,7 @@ public class HolmesGameAnalysis {
 				System.out.print(", " + currentState[i]);
 			}
 			System.out.println("]");
+
 			roundCounter++;
 		}
 
@@ -97,11 +98,9 @@ public class HolmesGameAnalysis {
 	public static boolean simulate(int[] state, ArrayList<Integer> numbers, boolean enolaTurn, int recLevel) {
 		if(gameOver(state)) {
 			if(isEnolaAlreadyWon(state)) {
-				//System.out.println("enolawins");
 				return true;
 			}
 			else{
-				//System.out.println("sherlockwins");
 				return false;
 			}
 		}
@@ -109,28 +108,28 @@ public class HolmesGameAnalysis {
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
-						makeMove(state, i, number);
+						int[] newState = new int[state.length];
+						System.arraycopy(state, 0, newState, 0, newState.length);
+						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						//System.out.println("alooo");
-						if(simulate(state, newNumbers, !enolaTurn, recLevel+1)) return true;
-						state[i-1]=-1;
+						if(simulate(newState, newNumbers, !enolaTurn, recLevel+1)) return true;
 					}
 				}
 			}
 
 			return false;
-			
+
 		}else {
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
-						makeMove(state, i, number);
+						int[] newState = new int[state.length];
+						System.arraycopy(state, 0, newState, 0, newState.length);
+						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						//System.out.println("alooo");
-						if(!simulate(state, newNumbers, !enolaTurn, recLevel+1)) return false;
-						state[i-1]=-1;
+						if(!simulate(newState, newNumbers, !enolaTurn, recLevel+1)) return false;
 					}
 				}
 			}
