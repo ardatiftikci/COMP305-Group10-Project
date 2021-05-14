@@ -1,15 +1,17 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class HolmesGameAnalysis {
 
 	static int roundCounter=1;
-
+	static HashMap<String, Boolean> hashMap = new HashMap<String, Boolean>();
+	
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test2.txt");
+		File file = new File("test4.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
@@ -23,6 +25,7 @@ public class HolmesGameAnalysis {
 		int mistakeCount=0;
 		int currentState[]=new int[size];
 		for(int i=0; i<size; i++){
+			
 			currentState[i]=-1;
 		}
 
@@ -39,28 +42,26 @@ public class HolmesGameAnalysis {
 			arr=sc.nextLine().split(" ");
 			place=Integer.parseInt(arr[0]);
 			num=Integer.parseInt(arr[1]);
-
 			boolean enolaWinsPrev = enolaWins;
 			enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
 			if(enolaWins!=enolaWinsPrev) {
 				mistakeCount++;
+				System.out.println(enolaWinsOptimally(currentState, remainingNumbers));
+				System.out.println(mistakeCount);
 			}
-			System.out.println(enolaWinsOptimally(currentState, remainingNumbers));
-			System.out.println(mistakeCount);
 
 			makeMove(currentState, place, num);
 			remainingNumbers.remove(new Integer(num));
 
 
-			System.out.print("After Round " + roundCounter +": [" + currentState[0]);
-			for(int i=1; i<size; i++){
-				System.out.print(", " + currentState[i]);
-			}
-			System.out.println("]");
+			System.out.println("After Round " + roundCounter +": [" + currentState[0]);
+//			for(int i=1; i<size; i++){
+//				System.out.print(", " + currentState[i]);
+//			}
+//			System.out.println("]");
 
 			roundCounter++;
 		}
-
 		sc.close();
 	}
 
@@ -86,7 +87,7 @@ public class HolmesGameAnalysis {
 	public static boolean enolaWinsOptimally(int[] currentState, ArrayList<Integer> numbers) {
 		int[] state = new int[currentState.length];
 		System.arraycopy(currentState, 0, state, 0, currentState.length);
-
+		if(roundCounter<currentState.length/3) return true;
 		if(gameOver(state)) {
 			return isEnolaAlreadyWon(state);
 		}
@@ -96,15 +97,19 @@ public class HolmesGameAnalysis {
 	}
 
 	public static boolean simulate(int[] state, ArrayList<Integer> numbers, boolean enolaTurn, int recLevel) {
-		if(gameOver(state)) {
-			if(isEnolaAlreadyWon(state)) {
-				return true;
-			}
-			else{
-				return false;
-			}
+		if(hashMap.containsKey(arrayToString(state))) {
+			return hashMap.get(arrayToString(state));
 		}
+		
+		if(gameOver(state)) {
+			hashMap.put(arrayToString(state), isEnolaAlreadyWon(state));
+			return isEnolaAlreadyWon(state);
+		}
+		
+		
 		if(enolaTurn) {
+			if(enolaCanWinImmediately(state, numbers)) return true;
+			if(enolaCanWinIn2Moves(state, numbers)) return true;
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
@@ -113,32 +118,106 @@ public class HolmesGameAnalysis {
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						if(simulate(newState, newNumbers, !enolaTurn, recLevel+1)) return true;
+						if(simulate(newState, newNumbers, !enolaTurn, recLevel+1)) {
+							hashMap.put(arrayToString(state), true);
+							return true;
+						}
 					}
 				}
 			}
-
+			hashMap.put(arrayToString(state), false);
 			return false;
 
 		}else {
+			if(enolaCanWinImmediately2(state, numbers)) return true;
+			//if(enolaCanWinIn2Moves(state, numbers)) return true;
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
+						if(roundCounter==90)System.out.println("llevent");
 						int[] newState = new int[state.length];
 						System.arraycopy(state, 0, newState, 0, newState.length);
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						if(!simulate(newState, newNumbers, !enolaTurn, recLevel+1)) return false;
+						if(!simulate(newState, newNumbers, !enolaTurn, recLevel+1)) {
+							hashMap.put(arrayToString(state), false);
+							return false;
+						}
 					}
 				}
 			}
+			hashMap.put(arrayToString(state), true);
 			return true;
 		}
 	}
 
+	private static boolean enolaCanWinIn2Moves(int[] state, ArrayList<Integer> numbers) {
+		boolean consecutive3Numbers = false;
+		for(int i=0; i<state.length-2 ; i++) {
+			if(numbers.contains(i)&&numbers.contains(i+1)&&numbers.contains(i+2)) {
+				consecutive3Numbers= true;
+				break;
+			}
+		}
+		if(!consecutive3Numbers) return false;
+		
+		for(int i=0; i<state.length-2 ;i++) {
+			if(state[i]==-1&&state[i+1]==-1&&state[i+2]==-1) return true;
+		}
+		return false;
+	}
+
+
+	private static boolean enolaCanWinImmediately(int[] state, ArrayList<Integer> numbers) {
+		if(state[0]!=-1&&state[1]==-1&&(numbers.contains(new Integer(state[0]+1)) || numbers.contains(new Integer(state[0]-1)))) {
+			return true;
+		}
+		
+		for(int i=1; i<state.length-1;i++) {
+			if(state[i]!=-1&&(state[i-1]==-1||state[i+1]==-1)&&(numbers.contains(new Integer(state[i]-1))||numbers.contains(new Integer(state[i]+1)))) {
+				return true;
+			}
+		}
+		if(state[state.length-1]!=-1&&state[state.length-2]==-1&&(numbers.contains(new Integer(state[state.length-1]+1)) || numbers.contains(new Integer(state[state.length-1]-1)))) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static boolean enolaCanWinImmediately2(int[] state, ArrayList<Integer> numbers) {
+		int counter = 0;
+		if(state[0]!=-1&&state[1]==-1&&(numbers.contains(new Integer(state[0]+1)) || numbers.contains(new Integer(state[0]-1)))) {
+			counter++;
+		}
+		
+		for(int i=1; i<state.length-1;i++) {
+			if(state[i]!=-1&&(state[i-1]==-1||state[i+1]==-1)&&(numbers.contains(new Integer(state[i]-1))||numbers.contains(new Integer(state[i]+1)))) {
+				counter++;
+				if(counter>=2) return true;
+			}
+		}
+		
+		if(state[state.length-1]!=-1&&state[state.length-2]==-1&&(numbers.contains(new Integer(state[state.length-1]+1)) || numbers.contains(new Integer(state[state.length-1]-1)))) {
+			counter++;
+			if(counter>=2) return true;
+		}
+		return false;
+	}
+
+
 	public static void  makeMove(int[] currentState, int place, int num) {
 		currentState[place-1]=num;
+	}
+	
+	public static String arrayToString(int[] state) {
+		String result = "";
+		for(int i=0; i<state.length-1;i++) {
+			result+=state[i];
+			result+=",";
+		}
+		result+=state[state.length-1];
+		return result;
 	}
 
 }
