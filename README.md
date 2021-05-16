@@ -22,3 +22,10 @@ Completed Steps for Meeting 2:
 2) Created the algorithm for the base case simulation (test1).
 TO DO:
 1) Debug the written code. 
+
+Completed Steps for Meeting 3: 
+1) Created the algorithm for the test1,2 and 3.
+2) Pruning is done.
+3) Dynamic programming approach is used. 
+TO DO:
+1) Debug the written code for test2 (10,000). 
