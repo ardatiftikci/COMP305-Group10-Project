@@ -28,4 +28,18 @@ Completed Steps for Meeting 3:
 2) Pruning is done.
 3) Dynamic programming approach is used. 
 TO DO:
-1) Debug the written code for test2 (10,000). 
+1) Debug the written code for test2 (10,000 & 100,000). 
+
+Completed Steps for Meeting 4: 
+1) Did more analysis to reduce time spent in 10,000 and 100,000 cases.
+2) Included hashsets to be more efficient. 
+TO DO:
+1) Reduce time spent in 10,000 and 100,000 cases 
+
+Completed Steps for Meeting 5: 
+1) Renovated the dynamic programming approach.
+2) Reduced the time spent by including more pruning. 
+3) Presentation is prepared halfway. 
+4) Corrected and improved the commands in the code.
+TO DO:
+1) Improve Presentation
