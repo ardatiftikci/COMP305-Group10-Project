@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
+
 public class HolmesGameAnalysis {
 
 	static int roundCounter=1;
@@ -13,7 +15,7 @@ public class HolmesGameAnalysis {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test4.txt");
+		File file = new File("test1.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
@@ -46,10 +48,10 @@ public class HolmesGameAnalysis {
 			place=Integer.parseInt(arr[0]);
 			num=Integer.parseInt(arr[1]);
 			boolean enolaWinsPrev = enolaWins;
-			enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
+			enolaWins = enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev);
 			if(enolaWins!=enolaWinsPrev) {
 				mistakeCount++;
-				System.out.println(enolaWinsOptimally(currentState, remainingNumbers));
+				System.out.println(enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev));
 				System.out.println(mistakeCount);
 			}
 
@@ -65,15 +67,17 @@ public class HolmesGameAnalysis {
 			roundCounter++;
 			}catch(NoSuchElementException e) {
 				boolean enolaWinsPrev = enolaWins;
-				enolaWins = enolaWinsOptimally(currentState, remainingNumbers);
+				enolaWins = enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev);
 				if(enolaWins!=enolaWinsPrev) {
 					mistakeCount++;
-					System.out.println(enolaWinsOptimally(currentState, remainingNumbers));
+					System.out.println(enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev));
 					System.out.println(mistakeCount);
 				}
 				break;
 			}			
 		}
+		
+		System.out.println(mistakeCount);
 		sc.close();
 	}
 
@@ -104,10 +108,11 @@ public class HolmesGameAnalysis {
 		return true;
 	}
 
-	public static boolean enolaWinsOptimally(int[] currentState, ArrayList<Integer> numbers) {
+	public static boolean enolaWinsOptimally(int[] currentState, ArrayList<Integer> numbers, boolean enolaWinsPrev) {
 		int[] state = new int[currentState.length];
 		System.arraycopy(currentState, 0, state, 0, currentState.length);
 		if(roundCounter<currentState.length/3) return true;
+		if(roundCounter%2==1&&enolaWinsPrev) return true;
 		if(gameOver(state)) {
 			return isEnolaAlreadyWon(state);
 		}
