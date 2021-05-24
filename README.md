@@ -43,3 +43,11 @@ Completed Steps for Meeting 5:
 4) Corrected and improved the commands in the code.
 TO DO:
 1) Improve Presentation
+
+Completed Steps for Meeting 6:
+1) First half of the presentation is finalized.
+2) Text for second half of presentation is prepared.
+3) Test cases is corrected and code is updated accordingly.
+TO DO:
+1) Complete Presentation
+2) Beautify the code
