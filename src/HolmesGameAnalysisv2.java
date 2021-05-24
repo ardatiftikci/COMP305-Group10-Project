@@ -15,7 +15,7 @@ public class HolmesGameAnalysisv2 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test4.txt");
+		File file = new File("test3.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
@@ -37,11 +37,7 @@ public class HolmesGameAnalysisv2 {
 			currentState[i]=-1;
 		}
 
-		System.out.print("Initial state: [" + currentState[0]);
-		for(int i=1; i<size; i++){
-			System.out.print(", " + currentState[i]);
-		}
-		System.out.println("]");
+		
 
 		int place, num;
 		String arr[];
@@ -80,21 +76,11 @@ public class HolmesGameAnalysisv2 {
 	
 		}
 
-		System.out.println(mistakeCount);
-		System.out.println(hashMap);
+		System.out.println("Total Mistake: " +mistakeCount);
 		sc.close();
 	}
 
 
-	public static boolean gameOver(int[] currentState) {
-		if(isEnolaAlreadyWon(currentState)) {
-			return true;
-		}
-		if(isGameFinished(currentState)) {
-			return true;
-		}
-		return false;
-	}
 
 	public static boolean isEnolaAlreadyWon(int[] currentState) {
 		for(int i=0; i<currentState.length-1; i++){
@@ -103,24 +89,17 @@ public class HolmesGameAnalysisv2 {
 		return false;
 	}
 
-	public static boolean isGameFinished(int[] currentState) {
-		for(int i=0; i<currentState.length; i++){
-			if(currentState[i] == -1) return false;
-		}
-		return true;
-	}
+	
 
 	public static boolean enolaWinsOptimally(int[] state, ArrayList<Integer> numbers, boolean enolaTurn) {
-		//int[] state = new int[currentState.length];
-		//System.arraycopy(currentState, 0, state, 0, currentState.length);
+		
 		if(roundCounter<state.length/3) return true;
-		//if(!enolaTurn&&enolaWinsPrev) return true;
-		//if(enolaTurn&&enolaWinsPrev==false) return false;
-
-		//return simulate(state, numbers, roundCounter%2==1, 0);
-		if(gameOver(state)) return isEnolaAlreadyWon(state);
-
+		if(numbers.size()==0) return isEnolaAlreadyWon(state);
+		if(isEnolaAlreadyWon(state)) return true;
+		
+		
 		if(enolaTurn) {
+			
 			if(enolaCanWinImmediately(state, numbers)) return true;
 			if(enolaCanWinIn2Moves(state, numbers)) return true;
 			if(enolaCantWin(state, numbers)) return false; //use it when board size is even
@@ -162,6 +141,7 @@ public class HolmesGameAnalysisv2 {
 				}
 			}
 			if(!flag) return false;
+	
 			return true;
 		}
 	}
