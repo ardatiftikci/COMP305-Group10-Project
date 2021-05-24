@@ -15,7 +15,7 @@ public class HolmesGameAnalysisv2 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test5.txt");
+		File file = new File("test2.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
