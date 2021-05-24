@@ -1,9 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class HolmesGameAnalysisv2 {
@@ -13,7 +15,7 @@ public class HolmesGameAnalysisv2 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test3.txt");
+		File file = new File("test4.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
@@ -21,6 +23,7 @@ public class HolmesGameAnalysisv2 {
 		
 		int roundNumber = Integer.parseInt(sc.nextLine());
 		System.out.println("Round Number:"+roundNumber);
+		
 
 		ArrayList<Integer> remainingNumbers = new ArrayList<Integer>();
 		for (int i=1; i<=size; i++) {
@@ -28,8 +31,9 @@ public class HolmesGameAnalysisv2 {
 		}
 		int mistakeCount=0;
 		int currentState[]=new int[size];
+		
+		//Initialize board with all -1. (-1 means empty.)
 		for(int i=0; i<size; i++){
-
 			currentState[i]=-1;
 		}
 
@@ -42,12 +46,21 @@ public class HolmesGameAnalysisv2 {
 		int place, num;
 		String arr[];
 		boolean enolaWins = true;
+		boolean enolaWinsPrev;
 		while(roundCounter <= roundNumber){
+			
 				arr=sc.nextLine().split(" ");
 				place=Integer.parseInt(arr[0]);
 				num=Integer.parseInt(arr[1]);
-				boolean enolaWinsPrev = enolaWins;
-				enolaWins = enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev);
+				enolaWinsPrev = enolaWins;
+				if(roundCounter%2==1 && enolaWinsPrev == true) {
+					enolaWins = true;
+				} else if (roundCounter%2==0 && enolaWinsPrev == false) {
+					enolaWins = false;
+				} else {
+					enolaWins = enolaWinsOptimally(currentState, remainingNumbers, roundCounter%2==1);
+				}
+				
 				if(enolaWins!=enolaWinsPrev) {
 					mistakeCount++;
 					System.out.println(enolaWins);
@@ -56,17 +69,19 @@ public class HolmesGameAnalysisv2 {
 				makeMove(currentState, place, num);
 				remainingNumbers.remove(new Integer(num));
 
-				System.out.print("After Round " + roundCounter +": [" + currentState[0]);
+				if(roundCounter%100==0) System.out.println("Round: "+ roundCounter);
+				/*System.out.print("After Round " + roundCounter +": [" + currentState[0]);
 				for(int i=1; i<size; i++){
 					System.out.print(", " + currentState[i]);
 				}
-				System.out.println("]");
+				System.out.println("]");*/
 
 				roundCounter++;
 	
 		}
 
-		System.out.println("Mistake Count: "+ mistakeCount);
+		System.out.println(mistakeCount);
+		System.out.println(hashMap);
 		sc.close();
 	}
 
@@ -95,22 +110,20 @@ public class HolmesGameAnalysisv2 {
 		return true;
 	}
 
-	public static boolean enolaWinsOptimally(int[] currentState, ArrayList<Integer> numbers, boolean enolaWinsPrev) {
-		int[] state = new int[currentState.length];
-		System.arraycopy(currentState, 0, state, 0, currentState.length);
-		if(roundCounter<currentState.length/3) return true;
-		if(roundCounter%2==1&&enolaWinsPrev) return true;
+	public static boolean enolaWinsOptimally(int[] state, ArrayList<Integer> numbers, boolean enolaTurn) {
+		//int[] state = new int[currentState.length];
+		//System.arraycopy(currentState, 0, state, 0, currentState.length);
+		if(roundCounter<state.length/3) return true;
+		//if(!enolaTurn&&enolaWinsPrev) return true;
+		//if(enolaTurn&&enolaWinsPrev==false) return false;
 
-		return simulate(state, numbers, roundCounter%2==1, 0);
-	}
-
-	public static boolean simulate(int[] state, ArrayList<Integer> numbers, boolean enolaTurn, int recLevel) {
+		//return simulate(state, numbers, roundCounter%2==1, 0);
 		if(gameOver(state)) return isEnolaAlreadyWon(state);
 
 		if(enolaTurn) {
 			if(enolaCanWinImmediately(state, numbers)) return true;
 			if(enolaCanWinIn2Moves(state, numbers)) return true;
-			//if(enolaCantWin(state, numbers)) return false; //use it when board size is even
+			if(enolaCantWin(state, numbers)) return false; //use it when board size is even
 			if(hashMap.containsKey(arrayToString(state, numbers))) return hashMap.get(arrayToString(state, numbers));
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
@@ -120,7 +133,7 @@ public class HolmesGameAnalysisv2 {
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						if(simulate(newState, newNumbers, !enolaTurn, recLevel+1)) {
+						if(enolaWinsOptimally(newState, newNumbers, !enolaTurn)) {
 							hashMap.put(arrayToString(state, numbers), true);
 							return true;
 						}
@@ -142,7 +155,7 @@ public class HolmesGameAnalysisv2 {
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
-						if(!simulate(newState, newNumbers, !enolaTurn, recLevel+1)) {
+						if(!enolaWinsOptimally(newState, newNumbers, !enolaTurn)) {
 							return false;
 						}
 					}
@@ -153,7 +166,7 @@ public class HolmesGameAnalysisv2 {
 		}
 	}
 
-
+	
 
 	private static boolean enolaCantWin(int[] state, ArrayList<Integer> numbers) {
 		for(int i=1; i<=state.length; i++) {
