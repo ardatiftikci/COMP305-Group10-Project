@@ -1,11 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class HolmesGameAnalysisv2 {
@@ -15,15 +13,14 @@ public class HolmesGameAnalysisv2 {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		File file = new File("test2.txt");
+		File file = new File("test3.txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
 		System.out.println("Size:"+size);
 		
 		int roundNumber = Integer.parseInt(sc.nextLine());
-		System.out.println("round num:"+roundNumber);
-		
+		System.out.println("Round Number:"+roundNumber);
 
 		ArrayList<Integer> remainingNumbers = new ArrayList<Integer>();
 		for (int i=1; i<=size; i++) {
@@ -46,7 +43,6 @@ public class HolmesGameAnalysisv2 {
 		String arr[];
 		boolean enolaWins = true;
 		while(roundCounter <= roundNumber){
-			
 				arr=sc.nextLine().split(" ");
 				place=Integer.parseInt(arr[0]);
 				num=Integer.parseInt(arr[1]);
@@ -70,8 +66,7 @@ public class HolmesGameAnalysisv2 {
 	
 		}
 
-		System.out.println(mistakeCount);
-		System.out.println(hashMap);
+		System.out.println("Mistake Count: "+ mistakeCount);
 		sc.close();
 	}
 
