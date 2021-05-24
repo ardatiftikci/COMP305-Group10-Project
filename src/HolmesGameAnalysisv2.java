@@ -20,7 +20,10 @@ public class HolmesGameAnalysisv2 {
 
 		int size = Integer.parseInt(sc.nextLine());
 		System.out.println("Size:"+size);
-
+		
+		int roundNumber = Integer.parseInt(sc.nextLine());
+		System.out.println("round num:"+roundNumber);
+		
 
 		ArrayList<Integer> remainingNumbers = new ArrayList<Integer>();
 		for (int i=1; i<=size; i++) {
@@ -42,8 +45,8 @@ public class HolmesGameAnalysisv2 {
 		int place, num;
 		String arr[];
 		boolean enolaWins = true;
-		while(!isGameFinished(currentState) && roundCounter <= size){
-			try {
+		while(roundCounter <= roundNumber){
+			
 				arr=sc.nextLine().split(" ");
 				place=Integer.parseInt(arr[0]);
 				num=Integer.parseInt(arr[1]);
@@ -51,7 +54,7 @@ public class HolmesGameAnalysisv2 {
 				enolaWins = enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev);
 				if(enolaWins!=enolaWinsPrev) {
 					mistakeCount++;
-					System.out.println(enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev));
+					System.out.println(enolaWins);
 					System.out.println(mistakeCount);
 				}
 				makeMove(currentState, place, num);
@@ -64,17 +67,7 @@ public class HolmesGameAnalysisv2 {
 				System.out.println("]");
 
 				roundCounter++;
-
-			}catch(NoSuchElementException e) {
-				boolean enolaWinsPrev = enolaWins;
-				enolaWins = enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev);
-				if(enolaWins!=enolaWinsPrev) {
-					mistakeCount++;
-					System.out.println(enolaWinsOptimally(currentState, remainingNumbers, enolaWinsPrev));
-					System.out.println(mistakeCount);
-				}
-				break;
-			}			
+	
 		}
 
 		System.out.println(mistakeCount);
