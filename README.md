@@ -56,7 +56,22 @@ Completed Steps for Meeting 7:
 1) Presentation is completed.
 2) Code is beautified.
 
+Short Summary What We Tried:
+
+1) Brute Force
+
+Our initial approach was a brute force solution to the problem, focusing strictly on correctness while disregarding performance. By trying all possible moves in every turn, we were able to produce the correct answer for tests of very small size, but for any N > 6 it would not terminate in a reasonable amount of time.
+
+2) Dynamic Programming
+
+After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before.
+
+How Our Algorithm Works:
+
 How to Run Code:
+
+- Modify the relevant file @ line x to the desired test file name.
+- Run as a java application.
 
 Test Results:
 1) 3 Mistakes <1 second
@@ -65,7 +80,5 @@ Test Results:
 4) 55 Mistakes 1 minute
 5) 287 Mistakes 20 minutes
 
-Short Summary What We Tried:
 
-How Our Algorithm Works:
 
