@@ -37,7 +37,6 @@ public class HolmesGameAnalysisv2 {
 			currentState[i]=-1;
 		}
 
-		
 
 		int place, num;
 		String arr[];
@@ -102,7 +101,7 @@ public class HolmesGameAnalysisv2 {
 			
 			if(enolaCanWinImmediately(state, numbers)) return true;
 			if(enolaCanWinIn2Moves(state, numbers)) return true;
-			if(enolaCantWin(state, numbers)) return false; //use it when board size is even
+			if(enolaCantWin(state, numbers)) return false;
 			if(hashMap.containsKey(arrayToString(state, numbers))) return hashMap.get(arrayToString(state, numbers));
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
@@ -149,11 +148,6 @@ public class HolmesGameAnalysisv2 {
 	
 
 	private static boolean enolaCantWin(int[] state, ArrayList<Integer> numbers) {
-		for(int i=1; i<=state.length; i++) {
-			if((i-2>=0&&state[i-2]!=-1)&&state[i-1]==-1&&(numbers.contains(state[i-2]+1)||numbers.contains(state[i-2]-1))||(i<=state.length-1&&state[i]!=-1)&&state[i-1]==-1&&(numbers.contains(state[i]+1)||numbers.contains(state[i]-1))) {
-				return false;
-			}
-		}
 
 		if(numbers.size()==2){
 			if(Math.abs(numbers.get(0)-numbers.get(1))==1){
