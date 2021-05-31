@@ -55,3 +55,17 @@ TO DO:
 Completed Steps for Meeting 7:
 1) Presentation is completed.
 2) Code is beautified.
+
+How to Run Code:
+
+Results:
+Test 1: 3 Mistakes <1 second
+Test 2: 0 Mistake <1 second
+Test 3: 0 Mistake 1 second
+Test 4: 55 Mistakes 1 minute
+Test 5: 287 Mistakes 20 minutes
+
+Short Summary What We Tried:
+
+How Our Algorithm Works:
+
