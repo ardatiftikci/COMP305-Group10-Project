@@ -15,8 +15,8 @@ public class HolmesGameAnalysisApproach2 {
 		
 		Scanner s=new Scanner(System.in);  
    		System.out.print("Enter which test you want to run:\n ");  
-    		String str= s.nextLine();
-   		File file = new File(str+".txt");
+    		int num= s.nextInt();
+   		File file = new File("Test"+num+".txt");
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
