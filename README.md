@@ -68,7 +68,7 @@ After realizing the potential of memoization, we implemented an algorithm using 
 
 How to Run Code:
 
-- Modify the relevant file @ line x to the desired test file name.
+- Modify the relevant java file @ line 15/16 to the desired test file name.
 - Run as a java application.
 
 Test Results:
