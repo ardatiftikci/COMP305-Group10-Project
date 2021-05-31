@@ -51,3 +51,7 @@ Completed Steps for Meeting 6:
 TO DO:
 1) Complete Presentation
 2) Beautify the code
+
+Completed Steps for Meeting 7:
+1) Presentation is completed.
+2) Code is beautified.
