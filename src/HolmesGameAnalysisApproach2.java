@@ -13,10 +13,11 @@ public class HolmesGameAnalysisApproach2 {
 	static boolean debug = false;
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Scanner s=new Scanner(System.in);  
-   		System.out.print("Enter which test you want to run:\n ");  
-    		int num= s.nextInt();
-   		File file = new File("Test"+num+".txt");
+		Scanner s = new Scanner(System.in);  
+   		System.out.print("Enter which test you want to run: ");  
+    	int testNumber= s.nextInt();
+   		File file = new File("Test"+testNumber+".txt");
+   		s.close();
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());

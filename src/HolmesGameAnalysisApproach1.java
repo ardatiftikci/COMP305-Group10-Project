@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.*;
 
 public class HolmesGameAnalysisApproach1 {
 
@@ -14,9 +13,10 @@ public class HolmesGameAnalysisApproach1 {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Scanner s=new Scanner(System.in);  
-   		System.out.print("Enter which test you want to run:\n ");  
-    		int num= s.nextInt();
-   		File file = new File("Test"+num+".txt");
+   		System.out.print("Enter which test you want to run: ");  
+    	int testNumber = s.nextInt();
+   		File file = new File("Test"+testNumber+".txt");
+   		s.close();
 		Scanner sc = new Scanner(file);
 
 		int size = Integer.parseInt(sc.nextLine());
