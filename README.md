@@ -3,10 +3,10 @@ COMP 305 Semester Project by Group 10
 Selected Problem: A Game Analysis with the Holmes Family
 
 Group Members (Name - e-Mail - GitHub Name):
-1. Arda Tiftikçi - atiftikci18@ku.edu.tr - ardatiftikci
-2. İrem Nur Bulut - ibulut18@ku.edu.tr - iremnurbulut
-3. İsmail Ozan Kayacan - ikayacan18@ku.edu.tr - ikayacan18
-4. Ömer Faruk Aksoy - oaksoy18@ku.edu.tr - omeraksoy1
+- Arda Tiftikçi - atiftikci18@ku.edu.tr - ardatiftikci
+- İrem Nur Bulut - ibulut18@ku.edu.tr - iremnurbulut
+- İsmail Ozan Kayacan - ikayacan18@ku.edu.tr - ikayacan18
+- Ömer Faruk Aksoy - oaksoy18@ku.edu.tr - omeraksoy1
 
 
 Completed Steps for Meeting 1:
@@ -56,7 +56,7 @@ Completed Steps for Meeting 7:
 1) Presentation is completed.
 2) Code is beautified.
 
-Short Summary What We Tried:
+What we tried (chronologically):
 
 1) Brute Force
 
@@ -64,9 +64,7 @@ Our initial approach was a brute force solution to the problem, focusing strictl
 
 2) Dynamic Programming
 
-After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before.
-
-How Our Algorithm Works:
+After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before. This is the final state of our algorithm.
 
 How to Run Code:
 
