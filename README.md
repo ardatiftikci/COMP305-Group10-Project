@@ -68,8 +68,8 @@ What we tried (chronologically):
 
 How to Run Code:
 
-- Modify the relevant java file @ line 15/16 to the desired test file name.
 - Run as a java application.
+- Enter the test number, that you want to run. 
 
 Test Results:
 1) 3 Mistakes <1 second
