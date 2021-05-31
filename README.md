@@ -58,12 +58,12 @@ Completed Steps for Meeting 7:
 
 How to Run Code:
 
-Results:
-Test 1) 3 Mistakes <1 second
-Test 2) 0 Mistake <1 second
-Test 3) 0 Mistake 1 second
-Test 4) 55 Mistakes 1 minute
-Test 5) 287 Mistakes 20 minutes
+Test Results:
+1) 3 Mistakes <1 second
+2) 0 Mistake <1 second
+3) 0 Mistake 1 second
+4) 55 Mistakes 1 minute
+5) 287 Mistakes 20 minutes
 
 Short Summary What We Tried:
 
