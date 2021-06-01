@@ -14,7 +14,7 @@ public class HolmesGameAnalysisApproach1 {
 		
 		Scanner s=new Scanner(System.in);  
    		System.out.print("Enter which test you want to run: ");  
-    	int testNumber = s.nextInt();
+    		int testNumber = s.nextInt();
    		File file = new File("Test"+testNumber+".txt");
    		s.close();
 		Scanner sc = new Scanner(file);
@@ -63,7 +63,7 @@ public class HolmesGameAnalysisApproach1 {
 			System.out.println("]");*/
 
 			roundCounter++;
-	}
+		}
 
 		System.out.println("Total Mistake: "+ mistakeCount);
 		sc.close();
@@ -130,7 +130,7 @@ public class HolmesGameAnalysisApproach1 {
 			hashMap.put(arrayToString(state), false);
 			return false;
 
-		}else {
+		} else {
 			if(enolaCanWinImmediately2(state, numbers)) return true;
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
