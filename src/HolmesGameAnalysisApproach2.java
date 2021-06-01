@@ -15,7 +15,7 @@ public class HolmesGameAnalysisApproach2 {
 		
 		Scanner s = new Scanner(System.in);  
    		System.out.print("Enter which test you want to run: ");  
-    	int testNumber= s.nextInt();
+    		int testNumber= s.nextInt();
    		File file = new File("Test"+testNumber+".txt");
    		s.close();
 		Scanner sc = new Scanner(file);
@@ -117,7 +117,7 @@ public class HolmesGameAnalysisApproach2 {
 			hashMap.put(arrayToString(state, numbers), false);
 			return false;
 
-		}else {
+		} else {
 			if(sherlockCantPrevent(state, numbers)) return true;
 			boolean flag = false;
 			for(Integer number : numbers) {
