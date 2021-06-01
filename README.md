@@ -77,7 +77,8 @@ Approach 2:
 2) noname
 3) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n).
 
-4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent.
+4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent (in Enola's Turn). So, we created EnolaCantWin method if it returns true, Sherlock wins optimally for sure. However, if it returns false the code proceeds to recursive calls. This reduces the required time for Test 4 to 1 minute and Test 5 to 20 minutes. However, asymptotic complexity did not change.
+
 How to Run Code:
 
 - Run as a java application (HolmesGameAnalysisApproach2).
