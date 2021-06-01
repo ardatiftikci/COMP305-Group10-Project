@@ -58,17 +58,29 @@ Completed Steps for Meeting 7:
 
 What we tried (chronologically):
 
+Approach 1:
+
 1) Brute Force
 
 - Our initial approach was a brute force solution to the problem, focusing strictly on correctness while disregarding performance. By trying all possible moves in every turn, we were able to produce the correct answer for tests of very small size, but for any N > 6 it would not terminate in a reasonable amount of time.
 
 2) Dynamic Programming
 
-- After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before. This is the final state of our algorithm.
+- After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before.
 
+3) Pruning
+4) SherlockCantPrevent
+
+Approach 2:
+
+1) New Representation
+2) noname
+3) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n).
+
+4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent.
 How to Run Code:
 
-- Run as a java application.
+- Run as a java application (HolmesGameAnalysisApproach2).
 - Enter the test number, that you want to run. 
 
 Test Results:
