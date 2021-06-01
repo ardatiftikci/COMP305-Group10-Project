@@ -71,9 +71,8 @@ Approach 1:
 3) Pruning
 
 - Even though we implemented dynamic programming, for each state we were trying all possibilities until the board gets full. But, we realized that in some states we can decide the winner directly. So before recursive calls, when it is Enola's turn we checked whether; 
-      
-      1) Enola can directly win by 1 move (when one of the numbers in the board has a adjacent empty cell, and one of the remaining numbers is 1 more or less than that number.)
-      2) Enola can win in 2 moves (when there are 3 empty adjacent cells, and 3 consecutive remaining numbers)
+     a) Enola can directly win by 1 move (when one of the numbers in the board has a adjacent empty cell, and one of the remaining numbers is 1 more or less than that number.)
+     b) Enola can win in 2 moves (when there are 3 empty adjacent cells, and 3 consecutive remaining numbers)
 - The rule about 3 empty adjacent cells, and 3 consecutive remaining numbers led us to make an important observation: Since during first n/3 - 1 rounds, Enola is always optimal winner.
 - We implemented 3 ideas above, then our algorithm got much faster for checking the winner when it is Enola's Turn. It worked fast for values of N <= 20. 
 - But it was very slow while checking winner in Sherlock's turn. For that, we need to eliminate some cases for Sherlock's turn as well.
