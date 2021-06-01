@@ -66,10 +66,20 @@ Approach 1:
 
 2) Dynamic Programming
 
-- After realizing the potential of memoization, we implemented an algorithm using dynamic programming w/hashmaps to store states and their outcomes. With this implementation - along with other improvements - we were able to produce the correct result relatively quickly compared to before.
+- After realizing that same states are encountered over and over during recursive calls, we added memoization by using hashmap to store states and their outcomes. With this addition, we were able to produce the correct result relatively quickly compared to before.
 
 3) Pruning
-4) SherlockCantPrevent
+
+- Even though we implemented dynamic programming, for each state we were trying all possibilities until the board gets full. But, we realized that in some states we can decide the winner directly. So before recursive calls, when it is Enola's turn we checked whether; 
+      1) Enola can directly win by 1 move (when one of the numbers in the board has a adjacent empty cell, and one of the remaining numbers is 1 more or less than that number.)
+      2) Enola can win in 2 moves (when there are 3 empty adjacent cells, and 3 consecutive remaining numbers)
+- The rule about 3 empty adjacent cells, and 3 consecutive remaining numbers led us to make an important observation: Since during first n/3 - 1 rounds, Enola is always optimal winner.
+- We implemented 3 ideas above, then our algorithm got much faster for checking the winner when it is Enola's Turn. It worked fast for values of N <= 20. 
+- But it was very slow while checking winner in Sherlock's turn. For that, we need to eliminate some cases for Sherlock's turn as well.
+      - We checked the states in which there are still at least 2 empty cells and 4 different unused numbers which each of them could make Enola the winner. Sherlock, by 1 move,         can only prevent 3 of these winning moves of Enola. Therefore, after Sherlock's any move, Enola is able to directly win.
+- We implemented this idea as well. As a result, our algorithm got much much faster, and it worked sufficiently fasts for tes1, test2, test3. But test4 and test5 were likely to take hours or even days to complete.
+
+
 
 Approach 2:
 
@@ -85,11 +95,11 @@ How to Run Code:
 - Enter the test number, that you want to run. 
 
 Test Results:
-1) 3 Mistakes <1 second
-2) 0 Mistake <1 second
-3) 0 Mistake 1 second
-4) 55 Mistakes 1 minute
-5) 287 Mistakes 20 minutes
+1) 3 Mistakes (<1 second)
+2) 0 Mistake (<1 second)
+3) 0 Mistake (1 second)
+4) 55 Mistakes (1 minute)
+5) 287 Mistakes (20 minutes)
 
 
 
