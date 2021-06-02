@@ -93,9 +93,12 @@ Approach 2:
 - Represented the game as two lists: a sequence of the number of adjacent empty cells & a sequence of the number of consecutive remaining numbers. This allowed us to make use of different *but equivalent* states and keep one of them memoized rather than however many there may be. This reduced our time complexity to O(n^4).
 2) Further Pruning
 - We realized that depending on the current optimal winner, it is possible for us to "skip" analyzing the move of one of the players. Since the algorithm is focused on the optimal scenario, if Player 1 is winning optimally at the end of their turn, Player 2 cannot change this. The converse of this also holds, allowing us to significantly (N/2) prune the number of turns we perform checks on. (e.g. if Enola is the optimal winner @ round 7000 and she does not make a mistake until round 9000, we would simulate the outcome of 1000 rounds rather than 2000)
-4) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n).
+
+3) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n).
 
 4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent (in Enola's Turn). So, we created EnolaCantWin method if it returns true, Sherlock wins optimally for sure. However, if it returns false the code proceeds to recursive calls. This reduces the required time for Test 4 to 1 minute and Test 5 to 20 minutes. However, asymptotic complexity did not change.
+
+Our final algorithm (HolmesGameAnalysisApproach2) works with all prunings we described above and Dynamic Programming on new representation of states.
 
 How to Run Code:
 
