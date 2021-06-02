@@ -98,6 +98,7 @@ public class HolmesGameAnalysisApproach2 {
 			if(enolaCanWinImmediately(state, numbers)) return true;
 			if(enolaCanWinIn2Moves(state, numbers)) return true;
 			if(enolaCantWin(state, numbers)) return false;
+			
 			if(hashMap.containsKey(arrayToString(state, numbers))) return hashMap.get(arrayToString(state, numbers));
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
