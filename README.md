@@ -64,9 +64,12 @@ Completed Steps for Meeting 7:
 
 What we tried (chronologically):
 
+
 Approach 1:
 
 1) Brute Force
+
+- We used array to represent state (since size is fixed), and arrayList to represent remaining numbers (since size is dynamic).
 
 - Our initial approach was a brute force solution to the problem, focusing strictly on correctness while disregarding performance. By trying all possible moves in every turn, we were able to produce the correct answer for tests of very small size, but for any N > 6 it would not terminate in a reasonable amount of time.
 
@@ -113,4 +116,4 @@ Test Results:
 5) 287 Mistakes (20 minutes)
 
 
-
+Note: Original test format was erroneus since size (number of saucers) was not given. Without knowing size, it is not possible to decide winner (for example if size is very huge, because of n/3 - 1 rounds fact stated above, number of mistake would be 0 for each tests.) Therefore we also added size information to test cases in the first line.
