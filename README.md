@@ -13,6 +13,7 @@ Completed Steps for Meeting 1:
 1) Decided on the language (Java)
 2) Talked about the problem.
 3) Wrote code of game simulation.
+
 TO DO:
 1) Try to come up with an idea.
 2) Convert the idea to pseudocode.
@@ -20,6 +21,7 @@ TO DO:
 Completed Steps for Meeting 2: 
 1) Analyzed the algorithm further. 
 2) Created the algorithm for the base case simulation (test1).
+
 TO DO:
 1) Debug the written code. 
 
@@ -27,12 +29,14 @@ Completed Steps for Meeting 3:
 1) Created the algorithm for the test1,2 and 3.
 2) Pruning is done.
 3) Dynamic programming approach is used. 
+
 TO DO:
 1) Debug the written code for test2 (10,000 & 100,000). 
 
 Completed Steps for Meeting 4: 
 1) Did more analysis to reduce time spent in 10,000 and 100,000 cases.
 2) Included hashsets to be more efficient. 
+
 TO DO:
 1) Reduce time spent in 10,000 and 100,000 cases 
 
