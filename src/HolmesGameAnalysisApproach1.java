@@ -1,3 +1,7 @@
+/* This is the first approach of Group 10 to Holmes Game Analysis Problem. The final one is second approach.
+ * However, we wanted to keep it here because second approach uses a different representation of cells and numbers. So, this shows how far we can go with a primitive approach.
+ * Arda Tiftikci, Irem Nur Bulut, Ismail Ozan Kayacan, Omer Faruk Aksoy
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,11 +14,12 @@ public class HolmesGameAnalysisApproach1 {
 	static int roundCounter=1;
 	static HashMap<String, Boolean> hashMap = new HashMap<String, Boolean>();
 
+	static boolean debug = false;
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		Scanner s=new Scanner(System.in);  
    		System.out.print("Enter which test you want to run: ");  
-    		int testNumber = s.nextInt();
+    	int testNumber = s.nextInt();
    		File file = new File("Test"+testNumber+".txt");
    		s.close();
 		Scanner sc = new Scanner(file);
@@ -30,14 +35,17 @@ public class HolmesGameAnalysisApproach1 {
 			remainingNumbers.add(i);
 		}
 		int mistakeCount=0;
+		
+		//Initialize board with all -1. (-1 means empty.)
 		int currentState[]=new int[size];
 		for(int i=0; i<size; i++){
 			currentState[i]=-1;
 		}
 
-
 		int place, num;
 		String arr[];
+		
+		//booleans for checking mistake
 		boolean enolaWins = true;
 		boolean enolaWinsPrev;
 		while(roundCounter <= roundNumber){
@@ -55,13 +63,14 @@ public class HolmesGameAnalysisApproach1 {
 			remainingNumbers.remove(new Integer(num));
 			
 			if(roundCounter%100==0) System.out.println("Round: "+roundCounter);
-
-			/*System.out.print("After Round " + roundCounter +": [" + currentState[0]);
-			for(int i=1; i<size; i++){
-				System.out.print(", " + currentState[i]);
+			if(debug) {
+				//for debugging purposes print all lines
+				System.out.print("After Round " + roundCounter +": [" + currentState[0]);
+				for(int i=1; i<size; i++){
+					System.out.print(", " + currentState[i]);
+				}
+				System.out.println("]");
 			}
-			System.out.println("]");*/
-
 			roundCounter++;
 		}
 
@@ -71,6 +80,7 @@ public class HolmesGameAnalysisApproach1 {
 
 
 	public static boolean gameOver(int[] currentState) {
+		//returns true if there are 2 consecutive numbers in 2 adjacent cells or all cells are full
 		if(isEnolaAlreadyWon(currentState)) {
 			hashMap.put(arrayToString(currentState), true);
 			return true;
@@ -83,6 +93,7 @@ public class HolmesGameAnalysisApproach1 {
 	}
 
 	public static boolean isEnolaAlreadyWon(int[] currentState) {
+		//returns true if there are 2 consecutive numbers in 2 adjacent cells
 		for(int i=0; i<currentState.length-1; i++){
 			if(Math.abs(currentState[i]-currentState[i+1])==1) return true;
 		}
@@ -90,6 +101,7 @@ public class HolmesGameAnalysisApproach1 {
 	}
 
 	public static boolean isGameFinished(int[] currentState) {
+		//returns true if all cells are full
 		for(int i=0; i<currentState.length; i++){
 			if(currentState[i] == -1) return false;
 		}
@@ -97,15 +109,14 @@ public class HolmesGameAnalysisApproach1 {
 	}
 
 	public static boolean enolaWinsOptimally(int[] state, ArrayList<Integer> numbers, boolean enolaTurn) {
-	
-		if(roundCounter<state.length/3) return true;
+		if(roundCounter<state.length/3) return true;//first N/3 -1 turns, enola wins optimally
 		
 		if(gameOver(state)) {
-			return hashMap.get(arrayToString(state));
+			return hashMap.get(arrayToString(state));//where Dynamic Programming Happens
 		}
 
 		if(hashMap.containsKey(arrayToString(state))) {
-			return hashMap.get(arrayToString(state));
+			return hashMap.get(arrayToString(state));//where Dynamic Programming Happens
 		}
 
 
@@ -115,47 +126,48 @@ public class HolmesGameAnalysisApproach1 {
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
+						//try all possible moves if one move will end with enola's win definitely, enola wins optimally
 						int[] newState = new int[state.length];
 						System.arraycopy(state, 0, newState, 0, newState.length);
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
 						if(enolaWinsOptimally(newState, newNumbers, !enolaTurn)) {
-							hashMap.put(arrayToString(state), true);
+							hashMap.put(arrayToString(state), true);//where Dynamic Programming Happens
 							return true;
 						}
 					}
 				}
 			}
-			hashMap.put(arrayToString(state), false);
+			hashMap.put(arrayToString(state), false);//where Dynamic Programming Happens
 			return false;
 
 		} else {
-			if(enolaCanWinImmediately2(state, numbers)) return true;
+			if(sherlockCantPrevent(state, numbers)) return true;
 			for(Integer number : numbers) {
 				for(int i=1; i<=state.length; i++) {
 					if(state[i-1]==-1) {
+						//try all possible moves if one move will end with sherlock's win definitely, sherlock wins optimally
 						int[] newState = new int[state.length];
 						System.arraycopy(state, 0, newState, 0, newState.length);
 						makeMove(newState, i, number);
 						ArrayList<Integer> newNumbers = new ArrayList<Integer>(numbers);
 						newNumbers.remove(new Integer(number));
 						if(!enolaWinsOptimally(newState, newNumbers, !enolaTurn)) {
-							hashMap.put(arrayToString(state), false);
+							hashMap.put(arrayToString(state), false);//where Dynamic Programming Happens
 							return false;
 						}
 					}
 				}
 			}
-			hashMap.put(arrayToString(state), true);
+			hashMap.put(arrayToString(state), true);//where Dynamic Programming Happens
 			return true;
 		}
 
 	}
 
-
-
 	private static boolean enolaCanWinIn2Moves(int[] state, ArrayList<Integer> numbers) {
+		//details of method is in slides
 		boolean consecutive3Numbers = false;
 		for(int i=0; i<state.length-2 ; i++) {
 			if(numbers.contains(i)&&numbers.contains(i+1)&&numbers.contains(i+2)) {
@@ -173,6 +185,7 @@ public class HolmesGameAnalysisApproach1 {
 
 
 	private static boolean enolaCanWinImmediately(int[] state, ArrayList<Integer> numbers) {
+		//look for an immediate win
 		if(state[0]!=-1&&state[1]==-1&&(numbers.contains(new Integer(state[0]+1)) || numbers.contains(new Integer(state[0]-1)))) {
 			return true;
 		}
@@ -188,9 +201,12 @@ public class HolmesGameAnalysisApproach1 {
 		return false;
 	}
 
-	private static boolean enolaCanWinImmediately2(int[] state, ArrayList<Integer> numbers) {
+	private static boolean sherlockCantPrevent(int[] state, ArrayList<Integer> numbers) {
+		//details of method is in slides
+		//look for 4 numbers and 2 places which satisfies the rule in slides
 		HashSet<Integer> set = new HashSet<>();
 		HashSet<Integer> set2 = new HashSet<>();
+		//sets for uniqueness
 
 		if(state[0]!=-1&&state[1]==-1&&(numbers.contains(new Integer(state[0]+1)) && numbers.contains(new Integer(state[0]-1)))) {
 			set.add(1);
@@ -225,6 +241,7 @@ public class HolmesGameAnalysisApproach1 {
 	}
 
 	public static String arrayToString(int[] state) {
+		//convert states to string for keeping them in HashMap
 		String result = "";
 		for(int i=0; i<state.length-1;i++) {
 			result+=state[i];
