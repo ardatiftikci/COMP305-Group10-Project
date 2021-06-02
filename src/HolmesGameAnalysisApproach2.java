@@ -56,7 +56,7 @@ public class HolmesGameAnalysisApproach2 {
 			enolaWinsPrev = enolaWins;
 			if(!(roundCounter%2==1 && enolaWinsPrev == true) && !(roundCounter%2==0 && enolaWinsPrev == false) && roundCounter>size/3-1) {
 				enolaWins = enolaWinsOptimally(currentState, remainingNumbers, roundCounter%2==1);
-			}//else enolaWins boolean does not change 
+			} //else enolaWins boolean does not change 
 
 			if(enolaWins!=enolaWinsPrev) {
 				mistakeCount++;
@@ -141,8 +141,7 @@ public class HolmesGameAnalysisApproach2 {
 					}
 				}
 			}
-			if(!flag) return false; //if no promising moves sherlock wins optimally
-			return true;
+			return flag; //if no promising moves sherlock wins optimally
 		}
 	}
 
