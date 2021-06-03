@@ -73,9 +73,16 @@ Approach 1:
 
 - Our initial approach was a brute force solution to the problem, focusing strictly on correctness while disregarding performance. By trying all possible moves in every turn, we were able to produce the correct answer for tests of very small size, but for any N > 6 it would not terminate in a reasonable amount of time.
 
+     Time Complexity: T(n) = T(n-1) * n^2 + O(1)   =>   T(n) = O(n^n)
+     Space Complexity: We have 2^n subsets and call recursively all permutations of them, so space complexity   =>   O(2^n * n!)
+
 2) Dynamic Programming
 
 - After realizing that same states are encountered over and over during recursive calls, we added memoization by using hashmap to store states and their outcomes. With this addition, we were able to produce the correct result relatively quickly compared to before.
+
+     Time Complexity: O(2^n * n!) unique subproblems, each subproblem takes O(n^2) time (since in each round there are n^2 possible moves, and all of them tried until a result is achieved).     =>     T(n) = O(2^n * n^2 * n!)
+     Space Complexity: Same as before   =>   O(2^n * n!)
+     
 
 3) Pruning
 
@@ -88,18 +95,27 @@ Approach 1:
       - We checked the states in which there are still at least 2 empty cells and 4 different unused numbers which each of them could make Enola the winner. Sherlock, by 1 move,         can only prevent 3 of these winning moves of Enola. Therefore, after Sherlock's any move, Enola is able to directly win.
 - We implemented this idea as well. As a result, our algorithm got much much faster, and it worked sufficiently fasts for tes1, test2, test3. But test4 and test5 were likely to take hours or even days to complete.
 
+     These additions did not change asymptotic complexities, but in practice since a lot of states are eliminated, run times are much more improved! First 3 tests ends very fast, but last 2 tests seems to take hours and maybe even days!
+
+     The reason is number of unique subproblems O(2^n * n!) which is very huge! So we need to decrease number of unique subproblems by using the fact that most of them equivalent in terms of deciding winner. Approach 2 will use different representation of states.
 
 
 Approach 2:
 
 1) New Representation
-- Represented the game as two lists: a sequence of the number of adjacent empty cells & a sequence of the number of consecutive remaining numbers. This allowed us to make use of different *but equivalent* states and keep one of them memoized rather than however many there may be. This reduced our time complexity to O(n^4).
+- Represented the game as two lists: a sequence of the number of adjacent empty cells & a sequence of the number of consecutive remaining numbers. This allowed us to make use of different *but equivalent* states and keep one of them memoized rather than however many there may be.
+
+     Number of unique subproblems: O(n) with respect to numbers and O(n) with respect to cells, thus it is O(n²).
+     Cost of each subproblem: O(n^2)
+     Time Complexity: O(n^4) → much better
+     Space Complexity: O(n^2)
+     
 2) Further Pruning
 - We realized that depending on the current optimal winner, it is possible for us to "skip" analyzing the move of one of the players. Since the algorithm is focused on the optimal scenario, if Player 1 is winning optimally at the end of their turn, Player 2 cannot change this. The converse of this also holds, allowing us to significantly (N/2) prune the number of turns we perform checks on. (e.g. if Enola is the optimal winner @ round 7000 and she does not make a mistake until round 9000, we would simulate the outcome of 1000 rounds rather than 2000)
 
-3) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n).
+3) We thought that we can bound number of moves to try in a particular turn of Sherlock to N instead of N^2. We defined promising moves as any move by placing non-winning numbers to the cells that Enola would prefer, if she was to play in that round. In other words, Sherlock put a number to a place if Enola can win immediately by putting *another* number to that place. Thus, if there is a possibility of Sherlock winning optimally, it would be thanks to these moves. Cost of each subproblem became O(n). so time complexity is reduced to O(n^3).
 
-4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent (in Enola's Turn). So, we created EnolaCantWin method if it returns true, Sherlock wins optimally for sure. However, if it returns false the code proceeds to recursive calls. This reduces the required time for Test 4 to 1 minute and Test 5 to 20 minutes. However, asymptotic complexity did not change.
+4) If we get rid of the cases in which Enola can win in maximum 2 moves, Enola's only winning state is when there are 2 remaining numbers, and they are consecutive, and the   remaining cells are adjacent (in Enola's Turn). So, we created EnolaCantWin method if it returns true, Sherlock wins optimally for sure. However, if it returns false the code proceeds to recursive calls. This reduces the required time for Test 4 to 1 minute and Test 5 to 20 minutes. Asymptotic time complexity is still O(n^3).
 
 Our final algorithm (HolmesGameAnalysisApproach2) works with all prunings we described above and Dynamic Programming on new representation of states.
 
